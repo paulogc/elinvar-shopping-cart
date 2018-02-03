@@ -15,17 +15,14 @@ import './style.css';
 class ProductPage extends Component {
 
   static propTypes = {
-    isLoading: PropTypes.bool,
-    products: PropTypes.shape({
-      ids: PropTypes.arrayOf(PropTypes.number),
-      content: PropTypes.object,
-    }),
+    loading: PropTypes.bool,
+    error: PropTypes.object,
+    products: PropTypes.object,
     onAddToCart: PropTypes.func.isRequired,
     onFetchProducts: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    isLoading: true,
     products: { ids: [], content: {} },
   };
 
@@ -110,10 +107,23 @@ class ProductPage extends Component {
 }
 
 export default connect(
-  ({ products, appStatus }) => ({
-    products,
-    isLoading: appStatus[`${TYPE_PRODUCT}:all`] !== UPDATED,
-  }),
+  ({ entities, communication }) => {
+    const {
+      loading,
+      error,
+    } = communication.of('products');
+
+    const ids = entities.idsOf('products');
+    const content = entities.contentOf('products');
+    return {
+      loading,
+      error,
+      products: {
+        ids,
+        content,
+      },
+    }
+  },
   {
     onFetchProducts: fetchProducts,
     onAddToCart: addToCart,

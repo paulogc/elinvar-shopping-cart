@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { entities, communication } from 'redux-shelf';
 
 import { TYPE_PRODUCT } from '../../constants/communicationType';
 import { LOADING, UPDATED } from '../../constants/communicationStatus';
@@ -47,15 +48,17 @@ export function addToCart(productID) {
 
 export function fetchProducts() {
   return async (dispatch) => {
-    dispatch(retrievingProducts);
+    dispatch(communication.starting('products'));
 
     try {
       const response = await axios.get(PRODUCTS_URL);
       const products = response.data.products;
-  
-      dispatch(updateProducts(products));
+      console.log(products);
+      console.log(entities.set('products', products));
+      dispatch(entities.set('products', products));
+      dispatch(communication.done('products'));
     } catch (e) {
-      console.log(e);
+      dispatch(communication.fail('products', e));
     }
   };
 };

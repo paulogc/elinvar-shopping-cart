@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link  } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -21,6 +22,14 @@ const NavBar = (props) =>  {
       </li>
     </ul>
   );
+};
+
+NavBar.propTypes = {
+  cart: PropTypes.object,
+};
+
+NavBar.defaultProps = {
+  cart: { ids: [], content: {} },
 };
 
 export default connect(({ cart }) => ({ cart }))(NavBar);

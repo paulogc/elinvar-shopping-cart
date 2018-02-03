@@ -20,6 +20,7 @@
     "react-scripts": "1.1.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-shelf": "^0.0.4",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
